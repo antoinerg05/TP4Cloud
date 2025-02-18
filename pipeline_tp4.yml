@@ -9,22 +9,16 @@ steps:
     inputs:
       packageType: 'sdk'
       version: '8.x'
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'restore'
-      projects: '**/*.csproj'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
 
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
       projects: '**/*.csproj'
-      arguments: '--configuration Release'
 
   - task: DotNetCoreCLI@2
     inputs:
       command: 'publish'
-      PublishWebProjects: false
       projects: '**/*.csproj'
       arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
 
@@ -32,3 +26,10 @@ steps:
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'drop'
+
+  - task: AzureFunctionApp@1
+    inputs:
+      azureSubscription: 'VotreConnexionAzure'
+      appType: 'functionApp'
+      appName: 'calcul-interets'
+      package: '$(Build.ArtifactStagingDirectory)'
