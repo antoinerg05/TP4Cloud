@@ -10,8 +10,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.Azure.Functions.Worker;
 
-namespace BanqueTardi.Functions
-{
     public static class CalculInteretsFunction
     {
         [FunctionName("CalculInterets")]
@@ -73,4 +71,3 @@ namespace BanqueTardi.Functions
         public double Taux { get; set; }
         public double MontantInteret { get; set; }
     }
-}
