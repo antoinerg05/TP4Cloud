@@ -24,6 +24,7 @@ steps:
   - task: DotNetCoreCLI@2
     inputs:
       command: 'publish'
+      PublishWebProjects: false
       projects: '**/*.csproj'
       arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
 
