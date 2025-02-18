@@ -29,7 +29,7 @@ steps:
 
   - task: AzureFunctionApp@1
     inputs:
-      azureSubscription: 'VotreConnexionAzure'
+      azureSubscription: 'SC-TP4'
       appType: 'functionApp'
       appName: 'calcul-interets'
       package: '$(Build.ArtifactStagingDirectory)'
