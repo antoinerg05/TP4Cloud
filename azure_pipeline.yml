@@ -2,19 +2,24 @@
   - main
 
 pool:
-  vmImage: 'windows-2022'
+  vmImage: 'windows-latest'
 
 steps:
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
       version: '6.x'
-      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'restore'
+      projects: '**/*.csproj'
 
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
       projects: '**/*.csproj'
+      arguments: '--configuration Release'
 
   - task: DotNetCoreCLI@2
     inputs:
@@ -26,10 +31,3 @@ steps:
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'drop'
-
-  - task: AzureFunctionApp@1
-    inputs:
-      azureSubscription: 'VotreConnexionAzure'
-      appType: 'functionApp'
-      appName: 'NomDeVotreFunctionApp'
-      package: '$(Build.ArtifactStagingDirectory)'
