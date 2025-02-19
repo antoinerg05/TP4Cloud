@@ -1,7 +1,15 @@
 ﻿trigger:
   branches:
     include:
-      - main  # Déclenche le pipeline sur la branche principale
+      - master  # Déclenche le pipeline sur la branche principale
+  paths:
+    exclude:
+      - README.md  # Exclure des fichiers non nécessaires
+
+pr:
+  branches:
+    include:
+      - main  # Déclenche aussi le pipeline sur les Pull Requests vers main
 
 variables:
   azureSubscription: 'SC-TP4'  # Remplace avec ton service de connexion Azure
@@ -31,6 +39,12 @@ stages:
         dotnet test --configuration Release --no-build --verbosity normal
       displayName: "Restaurer, Compiler et Tester"
 
+    # 🚀 Vérification : Lister les fichiers avant l'archivage
+    - script: |
+        ls -laR $(System.DefaultWorkingDirectory)
+      displayName: "Lister les fichiers avant l'archivage"
+
+    # 🚀 Création de l'archive ZIP en excluant les fichiers protégés
     - task: ArchiveFiles@2
       displayName: "Créer l'Archive du Code"
       inputs:
@@ -40,9 +54,11 @@ stages:
         archiveFile: "$(Build.ArtifactStagingDirectory)/$(artifactName).zip"
         replaceExistingArchive: true
         verbose: true
-        preserveFilePaths: false  # Ajout pour éviter les erreurs d'accès aux fichiers système
+        preserveFilePaths: false  # ⚠️ Empêche l'inclusion de fichiers système
+        exclude: |
+          **/run/cloud-init/**  # ⚠️ Exclure les fichiers système qui posent problème
 
-
+    # 🚀 Publier l'Artifact pour le déploiement
     - publish: "$(Build.ArtifactStagingDirectory)/$(artifactName).zip"
       displayName: "Publier l'Artifact"
       artifact: "drop"
