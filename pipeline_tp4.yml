@@ -48,7 +48,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: "Créer l'Archive du Code"
       inputs:
-        rootFolderOrFile: "$(System.DefaultWorkingDirectory)"
+        rootFolderOrFile: "$(System.DefaultWorkingDirectory)/bin/Release/net8.0/publish"
         includeRootFolder: false
         archiveType: "zip"
         archiveFile: "$(Build.ArtifactStagingDirectory)/$(artifactName).zip"
