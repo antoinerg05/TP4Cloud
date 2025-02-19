@@ -1,6 +1,8 @@
+using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace TP4Cloud
@@ -15,10 +17,20 @@ namespace TP4Cloud
         }
 
         [Function("CalculInterets")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
+        public static async Task<HttpResponseData> Run(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "calcul-interets")] HttpRequestData req,
+        FunctionContext executionContext)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
-            return new OkObjectResult("Welcome to Azure Functions!");
+            var logger = executionContext.GetLogger("CalculInterets");
+            logger.LogInformation("Azure Function déclenchée.");
+
+            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "application/json");
+            response.WriteString($"Requête reçue : {requestBody}");
+
+            return response;
         }
     }
 }
