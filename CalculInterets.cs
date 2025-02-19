@@ -24,11 +24,11 @@ namespace TP4Cloud
             var logger = executionContext.GetLogger("CalculInterets");
             logger.LogInformation("Azure Function déclenchée.");
 
-            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            //var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "application/json");
-            response.WriteString($"Requête reçue : {requestBody}");
+            response.WriteString($"Requête reçue : TEST");
 
             return response;
         }
