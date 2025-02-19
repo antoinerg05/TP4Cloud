@@ -5,7 +5,7 @@
 
 variables:
   azureSubscription: 'SC-TP4'  # Remplace avec ton service de connexion Azure
-  functionAppName: 'CalculInterets'
+  functionAppName: 'calcul-interets'
   artifactName: 'drop'
 
 stages:
