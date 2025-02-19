@@ -2,7 +2,7 @@
   "profiles": {
     "TP4Cloud": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7254",
+      "commandLineArgs": "--port 7275",
       "launchBrowser": false
     }
   }

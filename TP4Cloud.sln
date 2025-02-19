@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP4Cloud", "TP4Cloud.csproj", "{53588A70-C181-439C-899F-0AD33B17D7F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP4Cloud", "TP4Cloud.csproj", "{24765091-7997-4D58-8E2F-D3770B03F0C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{53588A70-C181-439C-899F-0AD33B17D7F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53588A70-C181-439C-899F-0AD33B17D7F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53588A70-C181-439C-899F-0AD33B17D7F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53588A70-C181-439C-899F-0AD33B17D7F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24765091-7997-4D58-8E2F-D3770B03F0C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24765091-7997-4D58-8E2F-D3770B03F0C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24765091-7997-4D58-8E2F-D3770B03F0C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24765091-7997-4D58-8E2F-D3770B03F0C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
