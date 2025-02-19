@@ -28,7 +28,7 @@ namespace TP4Cloud
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "application/json");
-            response.WriteString($"Requête reçue : TEST");
+            await response.WriteStringAsync($"Requête reçue : TEST");
 
             return response;
         }
