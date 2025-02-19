@@ -38,6 +38,10 @@ stages:
         includeRootFolder: false
         archiveType: "zip"
         archiveFile: "$(Build.ArtifactStagingDirectory)/$(artifactName).zip"
+        replaceExistingArchive: true
+        verbose: true
+        preserveFilePaths: false  # Ajout pour éviter les erreurs d'accès aux fichiers système
+
 
     - publish: "$(Build.ArtifactStagingDirectory)/$(artifactName).zip"
       displayName: "Publier l'Artifact"
