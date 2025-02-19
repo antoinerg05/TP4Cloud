@@ -1,36 +1,65 @@
 ﻿trigger:
-  - main
+  branches:
+    include:
+      - main  # Déclenche le pipeline sur la branche principale
 
-pool:
-  vmImage: 'windows-latest'
+variables:
+  azureSubscription: 'SC-TP4'  # Remplace avec ton service de connexion Azure
+  functionAppName: 'CalculInteret'
+  artifactName: 'drop'
 
-steps:
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'sdk'
-      version: '8.x'
-      installationPath: $(Agent.ToolsDirectory)/dotnet
+stages:
+- stage: Build
+  displayName: "Build et Tests"
+  jobs:
+  - job: Build
+    displayName: "Build .NET et Exécution des Tests"
+    pool:
+      vmImage: "ubuntu-latest"
 
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'build'
-      projects: '**/*.csproj'
+    steps:
+    - task: UseDotNet@2
+      displayName: "Utiliser .NET 8"
+      inputs:
+        packageType: "sdk"
+        version: "8.0.x"
+        installationPath: $(Agent.ToolsDirectory)/dotnet
 
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'publish'
-      projects: '**/*.csproj'
-      publishWebProjects: false
-      arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+    - script: |
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+        dotnet test --configuration Release --no-build --verbosity normal
+      displayName: "Restaurer, Compiler et Tester"
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'drop'
+    - task: ArchiveFiles@2
+      displayName: "Créer l'Archive du Code"
+      inputs:
+        rootFolderOrFile: "$(System.DefaultWorkingDirectory)"
+        includeRootFolder: false
+        archiveType: "zip"
+        archiveFile: "$(Build.ArtifactStagingDirectory)/$(artifactName).zip"
 
-  - task: AzureFunctionApp@1
-    inputs:
-      azureSubscription: 'SC-TP4'
-      appType: 'functionApp'
-      appName: 'calcul-interets'
-      package: '$(Build.ArtifactStagingDirectory)'
+    - publish: "$(Build.ArtifactStagingDirectory)/$(artifactName).zip"
+      displayName: "Publier l'Artifact"
+      artifact: "drop"
+
+- stage: DeployFunction
+  displayName: "Déployer l'Azure Function"
+  dependsOn: Build
+  jobs:
+  - job: Deploy
+    displayName: "Déploiement de la Function App"
+    pool:
+      vmImage: "ubuntu-latest"
+
+    steps:
+    - download: current
+      artifact: "drop"
+
+    - task: AzureFunctionApp@1
+      displayName: "Déployer l'Azure Function"
+      inputs:
+        azureSubscription: "$(azureSubscription)"
+        appType: "functionAppLinux"
+        appName: "$(functionAppName)"
+        package: "$(Pipeline.Workspace)/drop/$(artifactName).zip"
