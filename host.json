@@ -1,5 +1,5 @@
 {
-    "version": "2.0",
+    "version": "4.0",
     "logging": {
         "applicationInsights": {
             "samplingSettings": {
@@ -7,6 +7,11 @@
                 "excludedTypes": "Request"
             },
             "enableLiveMetricsFilters": true
+        }
+    },
+    "extensions": {
+        "http": {
+            "routePrefix": "api"
         }
     }
 }
