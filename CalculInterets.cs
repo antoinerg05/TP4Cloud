@@ -16,7 +16,7 @@ namespace TP4Cloud
     {
         [Function("CalculInterets")]
         public static async Task<HttpResponseData> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "calcul-interets")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "calcul-interets")] HttpRequestData req,
             FunctionContext executionContext)
         {
             var logger = executionContext.GetLogger("CalculInterets");
