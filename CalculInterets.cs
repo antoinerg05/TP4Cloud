@@ -65,9 +65,13 @@ namespace TP4Cloud
             if (solde <= 0 || taux <= 0 || dateDebut >= dateFin)
                 return 0;
 
-            var jours = (dateFin - dateDebut).TotalDays;
-            return (solde * taux * jours) / 365;
+            int nombreMois = ((dateFin.Year - dateDebut.Year) * 12) + dateFin.Month - dateDebut.Month;
+            double tauxMensuel = (taux / 100) / 12;
+            double montantFinal = solde * Math.Pow(1 + tauxMensuel, nombreMois);
+
+            return Math.Round(montantFinal - solde, 2);
         }
+
 
         private static async Task SauvegarderInterets(List<Interet> interets, ILogger logger)
         {
