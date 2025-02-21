@@ -76,7 +76,6 @@ namespace TP4Cloud
         private static async Task SauvegarderInterets(List<Interet> interets, ILogger logger)
         {
             string connectionString = Environment.GetEnvironmentVariable("AzureSQLConnectionString", EnvironmentVariableTarget.Process);
-            connectionString = "Server=tcp:tp4db.database.windows.net,1433;Initial Catalog=tp4-sql;Persist Security Info=False;User ID=admintp4;Password=TGL2025@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
             if (string.IsNullOrEmpty(connectionString))
             {
